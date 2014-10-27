@@ -13,5 +13,5 @@ list_patterns = patterns(
 )
 urlpatterns = patterns(
     '',
-    url(r'^lists/$', include(list_patterns, namespace='lists')),
+    url(r'^lists/', include(list_patterns, namespace='lists')),
 )
