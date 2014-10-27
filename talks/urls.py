@@ -6,7 +6,7 @@ list_patterns = patterns(
     '',
     url(r'', TalkListListView.as_view(), name='list'),
     url(
-        r'^d/(?P<slug>[-\w]+)/$',
+        r'^\d(?P<slug>[-\w]+)/$',
         TalkListDetailView.as_view(),
         name='detail'
     ),
