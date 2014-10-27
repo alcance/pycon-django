@@ -3,7 +3,9 @@ from django.contrib.auth import (
     login,
     logout
 )
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import (
     TemplateView,
@@ -12,6 +14,8 @@ from django.views.generic import (
 )
 from django.http import HttpResponseRedirect
 
+from braces import views
+
 from .forms import RegistrationForm, LoginForm
 
 
@@ -19,14 +23,25 @@ class HomePageView(TemplateView):
     template_name = 'home.html'
 
 
-class SignUpView(CreateView):
+class SignUpView(
+    views.AnonymousRequiredMixin,
+    views.FormValidMessageMixin,
+    CreateView
+):
     form_class = RegistrationForm
+    form_valid_message = 'Thanks for signing up, go ahead and login.'
     model = User
     template_name = 'accounts/signup.html'
+    success_url = reverse_lazy('login')
 
 
-class LoginView(FormView):
+class LoginView(
+    views.AnonymousRequiredMixin,
+    views.FormValidMessageMixin,
+    FormView
+):
     form_class = LoginForm
+    form_valid_message = "Welcome to your account. You are now logged in."
     success_url = reverse_lazy('home')
     template_name = 'accounts/login.html'
 
@@ -42,6 +57,8 @@ class LoginView(FormView):
             return self.form_invalid(form)
 
 
+@login_required
 def logout_view(request):
     logout(request)
+    messages.success(request, "Hello. You are now logged out. See you later.")
     return HttpResponseRedirect(reverse_lazy('home'))
