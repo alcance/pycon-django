@@ -1,10 +1,11 @@
 from django.conf.urls import patterns, include, url
 
-from .views import TalkListDetailView
+from .views import TalkListDetailView, TalkListListView
 
 list_patterns = patterns(
     '',
-    url(r'', TalkListDetailView.as_view(), name='detail'),
+    url(r'', TalkListListView.as_view(), name='list'),
+    url(r'd/(?P<slug>[-\w]+)/$)', TalkListDetailView.as_view(), name='detail'),
 )
 urlpatterns = patterns(
     '',
