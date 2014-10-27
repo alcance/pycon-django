@@ -1,6 +1,6 @@
 from django.contrib.auth import (
     authenticate,
-    login
+    login,
     logout
 )
 from django.contrib.auth.models import User
@@ -8,9 +8,9 @@ from django.core.urlresolvers import reverse_lazy
 from django.views.generic import (
     TemplateView,
     CreateView,
-    FormView,
-    RedirectView
+    FormView
 )
+from django.http import HttpResponseRedirect
 
 from .forms import RegistrationForm, LoginForm
 
@@ -42,9 +42,6 @@ class LoginView(FormView):
             return self.form_invalid(form)
 
 
-class LogoutView(RedirectView):
-    url = reverse_lazy('home')
-
-    def get(sef, request, *args, *kwargs):
-        logout(request)
-        return super(LogoutView, self).get(request, *args, **kwargs)
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse_lazy('home'))
