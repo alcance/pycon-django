@@ -16,6 +16,8 @@ from django.http import HttpResponseRedirect
 
 from braces import views
 
+from talks.models import TalkList
+
 from .forms import RegistrationForm, LoginForm
 
 
@@ -33,6 +35,11 @@ class SignUpView(
     model = User
     template_name = 'accounts/signup.html'
     success_url = reverse_lazy('login')
+
+    def form_valid(self, form):
+        resp = super(SignUpView, self).form_valid(form)
+        TalkList.objects.create(user=self.object, name='To Attend')
+        return resp
 
 
 class LoginView(
