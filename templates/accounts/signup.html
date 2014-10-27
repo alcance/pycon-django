@@ -1,0 +1,14 @@
+{% extends "_layout/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Register | {{ block.super }}
+{% endblock title %}
+
+{% block headline %}
+    Register for PyCon Survival Guide
+{% endblock headline %}
+
+{% block content %}
+{% crispy form %}
+{% endblock content %}
