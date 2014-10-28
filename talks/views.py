@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+from django.db.models import Count
 from django.shortcuts import redirect
 from django.views.generic import (
     ListView,
@@ -32,6 +33,11 @@ class TalkListListView(
     ListView
 ):
     model = TalkList
+
+    def get_queryset(self):
+        queryset = super(TalkListListView, self).get_queryset()
+        queryset = queryset.annotate(talk_count=Count('talks'))
+        return queryset
 
 
 class TalkListDetailView(
