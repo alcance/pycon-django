@@ -14,8 +14,8 @@ class TalkListForm(forms.ModelForm):
         model = TalkList
 
     def __init__(self, *args, **kwargs):
-        super(TalkListForm, self).__init__()
-        self.helper = FormHelper
+        super(TalkListForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
         self.helper.layout = Layout(
             'name',
             ButtonHolder(

@@ -9,8 +9,8 @@ from .views import (
 list_patterns = patterns(
     '',
     url(r'^$', TalkListListView.as_view(), name='list'),
-    url(r'^(?P<slug>[-\w]+)/$', TalkListDetailView.as_view(), name='detail'),
     url(r'^create/$', TalkListCreateView.as_view(), name='create'),
+    url(r'^(?P<slug>[-\w]+)/$', TalkListDetailView.as_view(), name='detail'),
 )
 urlpatterns = patterns(
     '',

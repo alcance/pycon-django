@@ -47,4 +47,4 @@ class TalkListCreateView(
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
-        return super(TalkListCreateView, self).form_valid()
+        return super(TalkListCreateView, self).form_valid(form)
