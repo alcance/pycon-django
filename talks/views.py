@@ -134,4 +134,15 @@ class TalkListRemoveTalkView(
                 self.object, self.talklist)
         )
         self.object.delete()
-        return super(TalkListRemoveTalkView, self).get(request, *args, **kwargs)
+        return super(TalkListRemoveTalkView, self).get(request,
+                                                       *args, **kwargs)
+
+
+class TalkListScheduleView(
+    RestrictToUserMixin,
+    PrefetchRelatedMixin,
+    DetailView
+):
+    model = TalkList
+    prefetch_related = ('talks',)
+    template_name = 'talks/schedule.html'

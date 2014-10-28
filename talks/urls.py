@@ -5,7 +5,8 @@ from .views import (
     TalkListListView,
     TalkListCreateView,
     TalkListUpdateView,
-    TalkListRemoveTalkView
+    TalkListRemoveTalkView,
+    TalkListScheduleView
 )
 
 list_patterns = patterns(
@@ -18,6 +19,11 @@ list_patterns = patterns(
         r'^remove/(?P<talklist_pk>\d+)/(?P<pk>\d+)/$',
         TalkListRemoveTalkView.as_view(),
         name='remove_talk'
+    ),
+    url(
+        r'^s/(?P<slug>[-\w]+)/$',
+        TalkListScheduleView.as_view(),
+        name='schedule'
     ),
 )
 urlpatterns = patterns(
