@@ -1,8 +1,16 @@
 from __future__ import absolute_import
 
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView
+)
 
-from braces.views import LoginRequiredMixin, SetHeadlineMixin
+from braces.views import (
+    LoginRequiredMixin,
+    SetHeadlineMixin
+)
 
 from .models import TalkList
 
@@ -48,3 +56,14 @@ class TalkListCreateView(
         self.object.user = self.request.user
         self.object.save()
         return super(TalkListCreateView, self).form_valid(form)
+
+
+class TalkListUpdateView(
+    RestrictToUserMixin,
+    LoginRequiredMixin,
+    SetHeadlineMixin,
+    UpdateView
+):
+    form_class = TalkListForm
+    headline = 'Update'
+    model = TalkList
