@@ -4,7 +4,8 @@ from .views import (
     TalkListDetailView,
     TalkListListView,
     TalkListCreateView,
-    TalkListUpdateView
+    TalkListUpdateView,
+    TalkListRemoveTalkView
 )
 
 list_patterns = patterns(
@@ -13,6 +14,11 @@ list_patterns = patterns(
     url(r'^create/$', TalkListCreateView.as_view(), name='create'),
     url(r'^d/(?P<slug>[-\w]+)/$', TalkListDetailView.as_view(), name='detail'),
     url(r'^e/(?P<slug>[-\w]+)/$', TalkListUpdateView.as_view(), name='update'),
+    url(
+        r'^remove/(?P<talklist_pk>\d+)/(?P<pk>\d+)/$',
+        TalkListRemoveTalkView.as_view(),
+        name='remove_talk'
+    ),
 )
 urlpatterns = patterns(
     '',

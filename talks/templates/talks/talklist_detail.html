@@ -11,7 +11,13 @@
 {% block content %}
 <div class="row">
     <div class="col-sm-6">
-        <p>Talks go here</p>
+    {% if object.talks.all %}
+        {% for talk in object.talks.all %}
+            {% include "talks/_talk.html" %}
+        {% endfor %}
+    {% else %}
+        <p>There are no talks registered. Add one.</p>
+    {% endif %}
     </div>
 
     <div class="col-sm-6">

@@ -1,12 +1,15 @@
 from __future__ import absolute_import
 
+from django.contrib import messages
 from django.db.models import Count
+from django.http import Http404
 from django.shortcuts import redirect
 from django.views.generic import (
     ListView,
     DetailView,
     CreateView,
-    UpdateView
+    UpdateView,
+    RedirectView
 )
 
 from braces.views import (
@@ -15,7 +18,7 @@ from braces.views import (
     SetHeadlineMixin
 )
 
-from .models import TalkList
+from .models import TalkList, Talk
 
 from .forms import TalkListForm, TalkForm
 
@@ -96,3 +99,39 @@ class TalkListUpdateView(
     form_class = TalkListForm
     headline = 'Update'
     model = TalkList
+
+
+class TalkListRemoveTalkView(
+    LoginRequiredMixin,
+    RedirectView
+):
+    model = Talk
+
+    def get_redirect_url(self, *args, **kwargs):
+        return self.talklist.get_absolute_url()
+
+    def get_object(self, pk, talklist_pk):
+        try:
+            talk = self.model.objects.get(
+                pk=pk,
+                talk_list_id=talklist_pk,
+                talk_list__user=self.request.user
+            )
+        except Talk.DoesNotExist:
+            raise Http404
+        else:
+            return talk
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(
+            kwargs.get('pk'),
+            kwargs.get('talklist_pk')
+        )
+        self.talklist = self.object.talk_list
+        messages.success(
+            request,
+            u'{0.name} was removed from {1.name}'.format(
+                self.object, self.talklist)
+        )
+        self.object.delete()
+        return super(TalkListRemoveTalkView, self).get(request, *args, **kwargs)
