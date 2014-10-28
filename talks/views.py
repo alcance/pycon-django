@@ -9,6 +9,7 @@ from django.views.generic import (
 
 from braces.views import (
     LoginRequiredMixin,
+    PrefetchRelatedMixin,
     SetHeadlineMixin
 )
 
@@ -35,7 +36,7 @@ class TalkListListView(
 class TalkListDetailView(
     LoginRequiredMixin,
     RestrictToUserMixin,
-    #PrefetchRelatedMixin,
+    PrefetchRelatedMixin,
     DetailView,
 ):
     model = TalkList
