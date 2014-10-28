@@ -1,10 +1,12 @@
 from __future__ import absolute_import
 
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 
-from braces.views import LoginRequiredMixin, PrefetchRelatedMixin
+from braces.views import LoginRequiredMixin, SetHeadlineMixin
 
 from .models import TalkList
+
+from .forms import TalkListForm
 
 
 class RestrictToUserMixin(object):
@@ -30,3 +32,19 @@ class TalkListDetailView(
 ):
     model = TalkList
     prefetch_related = ('talks',)
+
+
+class TalkListCreateView(
+    LoginRequiredMixin,
+    SetHeadlineMixin,
+    CreateView
+):
+    form_class = TalkListForm
+    headline = 'Create'
+    model = TalkList
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return super(TalkListCreateView, self).form_valid()

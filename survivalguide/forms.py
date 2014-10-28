@@ -5,11 +5,11 @@ from django.contrib.auth.forms import (
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, ButtonHolder, Submit
 
+
 class RegistrationForm(UserCreationForm):
     """docstring for RegistrationForm"""
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)
-        
         self.helper = FormHelper()
         self.helper.layout = Layout(
             'username',
@@ -20,12 +20,12 @@ class RegistrationForm(UserCreationForm):
             )
         )
 
+
 class LoginForm(AuthenticationForm):
     """docstring for LoginForm"""
     def __init__(self, *args, **kwargs):
-        super(LoginForm, self).__init__(*args,**kwargs)
+        super(LoginForm, self).__init__(*args, **kwargs)
         self.args = args
-        
         self.helper = FormHelper()
         self.helper.layout = Layout(
             'username',
