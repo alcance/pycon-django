@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+from django.shortcuts import redirect
 from django.views.generic import (
     ListView,
     DetailView,
@@ -15,7 +16,7 @@ from braces.views import (
 
 from .models import TalkList
 
-from .forms import TalkListForm
+from .forms import TalkListForm, TalkForm
 
 
 class RestrictToUserMixin(object):
@@ -39,8 +40,29 @@ class TalkListDetailView(
     PrefetchRelatedMixin,
     DetailView,
 ):
+    form_class = TalkForm
+    http_method_names = ['get', 'post']
     model = TalkList
     prefetch_related = ('talks',)
+
+    def get_context_data(self, **kwargs):
+        context = super(TalkListDetailView, self).get_context_data(**kwargs)
+        context.update({
+            'form': self.form_class(self.request.POST or None)
+            }
+        )
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            obj = self.get_object()
+            talk = form.save(commit=False)
+            talk.talk_list = obj
+            talk.save()
+        else:
+            return self.get(request, *args, **kwargs)
+        return redirect(obj)
 
 
 class TalkListCreateView(
