@@ -8,6 +8,7 @@ https://docs.djangoproject.com/en/1.6/howto/deployment/wsgi/
 """
 
 import os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "survivalguide.settings")
 
 from whitenoise.django import DjangoWhiteNoise
 
