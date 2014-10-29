@@ -1,1 +1,1 @@
-web: gunicorn survivalguide.wsgi:application
+web: gunicorn survivalguide.wsgi
