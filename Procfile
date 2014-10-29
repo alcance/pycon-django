@@ -1,1 +1,1 @@
-web: gunicorn survivalguide.wsgi
+web: gunicorn survivalguide.wsgi --log-file -
