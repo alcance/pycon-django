@@ -2,7 +2,7 @@ pycon-django
 ============
 
 Django Crash Course. PyCon 2014
-Example coded by twitter.com/imartinezbr
+Example coded by http://twitter.com/imartinezbr
 
 Demo: http://survival-pycon.herokuapp.com/
 
